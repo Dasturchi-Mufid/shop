@@ -32,9 +32,9 @@
                                 <select name="category_id" class="form-control">
                                     {% for c in categories %}
                                         {% if c == product.category %}
-                                        <option value="{{c.id}}" selected>{{c.name}}</option>
+                                        <option value="{{c.code}}" selected>{{c.name}}</option>
                                         {% else %}
-                                        <option value="{{c.id}}">{{c.name}}</option>
+                                        <option value="{{c.code}}">{{c.name}}</option>
                                         {% endif %}
                                     {% endfor %}
                                 </select>

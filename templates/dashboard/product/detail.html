@@ -36,7 +36,7 @@
                                     <b>{{queryset.name}}ni o`chirmoqchimisiz?</b>
                                 </div>
                                 <div class="btn-group">
-                                    <form method="post" action="{% url 'dashboard:product_delete' queryset.id %}">
+                                    <form method="post" action="{% url 'dashboard:product_delete' queryset.code %}">
                                         {% csrf_token %}
                                     <button type="submit" class="btn btn-primary btn-tone">Ha</button>
                                     <button class="btn btn-danger btn-tone" type="button" data-dismiss="modal">Yo`q</button>

@@ -9,11 +9,11 @@ def index(request):
 
 
 def category_list(request):
-        queryset = models.Category.objects.all()
-        context = {
-            'queryset':queryset
-            }
-        return render(request, 'dashboard/category/list.html', context)
+    queryset = models.Category.objects.all()
+    context = {
+        'queryset':queryset
+        }
+    return render(request, 'dashboard/category/list.html', context)
 
 
 def category_create(request):
@@ -25,33 +25,37 @@ def category_create(request):
     return render(request, 'dashboard/category/create.html')
 
 
-def category_update(request, id):
-    queryset = models.Category.objects.get(id=id)
-    print(id)
-    print(queryset)
-    print(request.POST.get('name'))
+def category_update(request, code):
+    queryset = models.Category.objects.get(code=code)
     queryset.name = request.POST['name']
     queryset.save()
     return redirect('dashboard:category_list')
 
 
-def category_delete(request, id):
-    queryset = models.Category.objects.get(id=id)
+def category_delete(request, code):
+    queryset = models.Category.objects.get(code=code)
     queryset.delete()
     return redirect('dashboard:category_list')
 
 # ---------PRODUCT----------------
 
 def product_list(request):
-    queryset = models.Product.objects.all()
+    categories = models.Category.objects.all()
+    category_code = request.GET.get('category_code')
+    if category_code and category_code != '0':
+        queryset = models.Product.objects.filter(category__code=category_code)
+    else:
+        queryset = models.Product.objects.all()
     context = {
-          'queryset':queryset
+          'queryset':queryset,
+          'categories':categories,
+          'category_code':category_code,
     }
     return render(request, 'dashboard/product/list.html', context)
 
 
-def product_detail(request, id):
-    queryset = models.Product.objects.get(id=id)
+def product_detail(request, code):
+    queryset = models.Product.objects.get(code=code)
     images = models.ProductImg.objects.filter(product=queryset)
     reviews = models.Review.objects.filter(product=queryset)
     ratings = range(5,0,-1)
@@ -96,12 +100,12 @@ def product_create(request):
     return render(request, 'dashboard/product/create.html', context)
 
 
-def product_update(request, id):
+def product_update(request, code):
 
-    images = models.ProductImg.objects.filter(product_id=id)
-    videos = models.ProductVideo.objects.filter(product_id=id)
+    images = models.ProductImg.objects.filter(product__code=code)
+    videos = models.ProductVideo.objects.filter(product__code=code)
     categories = models.Category.objects.all()
-    product = models.Product.objects.get(id=id)
+    product = models.Product.objects.get(code=code)
 
     if request.method == 'POST':
         if request.FILES.get('banner_img'):
@@ -127,7 +131,7 @@ def product_update(request, id):
                 product = product,
                 video = video
         )
-        return redirect('dashboard:product_update',product.id)
+        return redirect('dashboard:product_update',product.code)
     
     context = {
           'images':images,
@@ -138,8 +142,8 @@ def product_update(request, id):
     }
     return render(request,'dashboard/product/update.html',context=context)
 
-def product_delete(request, id):
-    product = models.Product.objects.get(id=id)
+def product_delete(request, code):
+    product = models.Product.objects.get(code=code)
     product.delete()
     return redirect('dashboard:product_list')
 

@@ -46,7 +46,7 @@
                                                         <i class="anticon anticon-close"></i>
                                                     </button>
                                                 </div>
-                                                <form action="{% url 'dashboard:category_update' q.id %}" method="post">
+                                                <form action="{% url 'dashboard:category_update' q.code %}" method="post">
                                                     {% csrf_token %}
                                                 <div class="modal-body">
                                                     <input type="text" class="form-control" value="{{q.name}}" name="name">
@@ -73,7 +73,7 @@
                                                     <b>{{q.name}} categoryni o`chirmoqchimisiz?</b>
                                                 </div>
                                                 <div class="btn-group">
-                                                    <form method="post" action="{% url 'dashboard:category_delete' q.id %}">
+                                                    <form method="post" action="{% url 'dashboard:category_delete' q.code %}">
                                                         {% csrf_token %}
                                                     <button type="submit" class="btn btn-primary btn-tone">Ha</button>
                                                     <button class="btn btn-danger btn-tone" type="button" data-dismiss="modal">Yo`q</button>
