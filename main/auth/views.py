@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from main.models import User
+from main import models
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -28,7 +28,7 @@ def register(request):
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
             if password == confirm_password:
-                User.objects.create_user(
+                models.User.objects.create_user(
                     username=username, 
                     password=password, 
                     first_name=f_name, 
@@ -47,6 +47,7 @@ def log_out(request):
 
 @login_required(login_url='auth:login')
 def profile(request):
+    queryset = models.Cart.objects.filter(user=request.user, is_active=False)
     if request.method == 'POST':
         username = request.user.username
         f_name = request.POST.get('f_name')
@@ -55,10 +56,8 @@ def profile(request):
         password = request.POST.get('password')
         new_password = request.POST.get('new_password')
         new_password_confirm = request.POST.get('new_password_confirm')
-        print(username, l_name, email, password)
-        print(request.POST)
         if authenticate(username=username,password=password):
-            user = User.objects.get(username=username)
+            user = models.User.objects.get(username=username)
             user.first_name = f_name if f_name else ''
             user.last_name = l_name if l_name else ''
             user.email = email if email else ''
@@ -66,5 +65,13 @@ def profile(request):
                 user.set_password(new_password)
             user.save()
             return redirect('auth:profile')
-        # return redirect('front:profile')
-    return render(request, 'front/auth/profile.html')
+        
+    context = {'queryset':queryset}
+    return render(request, 'front/auth/profile.html',context)
+
+
+@login_required(login_url='auth:login')
+def carts(request):
+    queryset = models.Cart.objects.filter(user=request.user, is_active=False)
+    context = {'queryset':queryset}
+    return render(request, 'front/carts/list.html')

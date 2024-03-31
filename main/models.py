@@ -1,6 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from main.funcs import generate_code
+from random import sample
+import string
+
+
+
+class CodeGenerate(models.Model):
+    code = models.CharField(max_length=255, blank=True,unique=True)
+    
+    @staticmethod
+    def generate_code():
+        return ''.join(sample(string.ascii_letters + string.digits, 15)) 
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            while True:
+                code = self.generate_code()
+                if not self.__class__.objects.filter(code=code).count():
+                    self.code = code
+                    break
+        super(CodeGenerate,self).save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
 
 
 class User(AbstractUser):
@@ -8,6 +30,9 @@ class User(AbstractUser):
     address = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=255, blank=True, null=True)
     zip_code = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.username}'
     
     class Meta(AbstractUser.Meta):
         swappable = "AUTH_USER_MODEL"
@@ -18,20 +43,14 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
     
 
-class Category(models.Model):
+class Category(CodeGenerate):
     name = models.CharField(max_length=255, unique=True)
-    code = models.CharField(max_length=255, blank=True,unique=True)
 
     def __str__(self):
-        return self.name
-    
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.code = generate_code()
-        super(Category,self).save(*args, **kwargs)
+        return f'{self.name}'
 
 
-class Product(models.Model):
+class Product(CodeGenerate):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     body = models.TextField()
@@ -41,12 +60,10 @@ class Product(models.Model):
     banner_img = models.ImageField(upload_to='banner-img/')
     quantity = models.IntegerField() 
     delivery = models.BooleanField(default=False)
-    code = models.CharField(max_length=255, blank=True,unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
     
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.code = generate_code()
-        super(Product,self).save(*args, **kwargs)
 
 
 
@@ -54,11 +71,17 @@ class ProductImg(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     img = models.ImageField(upload_to='img/')
 
+    def __str__(self):
+        return f'{self.product.name}'
+
 
 class ProductVideo(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     video = models.FileField(upload_to='video', blank=True, null=True)
     link = models.URLField(null=True, blank=True)
+    
+    def __str__(self):
+        return f'{self.product.name}'
 
 
 class Review(models.Model):
@@ -66,6 +89,9 @@ class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
+    
+    def __str__(self):
+        return f'{self.product.name}, {self.user.username}, {self.text}'
 
     def save(self, *args, **kwargs):
         if self.pk:
@@ -80,21 +106,60 @@ class Review(models.Model):
         else:
             super().save(*args, **kwargs)
 
-class Cart(models.Model):
+class Cart(CodeGenerate):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
-    code = models.CharField(max_length=255, blank=True,unique=True)
     is_active = models.BooleanField(default=True)
+    order_date = models.DateTimeField(null=True, blank=True)
 
-    def save(self,*args, **kwargs):
-        if not self.id:
-            self.code = generate_code()
-        return super(Cart, self).save(*args, **kwargs)
+    def __str__(self):
+        return f'{self.user.username},{self.is_active}'
+
+    @property
+    def total(self):
+        count = 0
+        queryset = CartProduct.objects.filter(cart = self)
+        for i in queryset:
+            count +=i.count
+        return count
+    
+    @property
+    def price(self):
+        count = 0
+        queryset = CartProduct.objects.filter(cart = self)
+        for i in queryset:
+            if i.product.discount_price:
+                count += i.count * i.product.discount_price
+            else:
+                count += i.count * i.product.price
+        return count
+    
+    @property
+    def total_price(self):
+        count = 0
+        queryset = CartProduct.objects.filter(cart = self)
+        for i in queryset:
+            count += i.count * i.product.price
+        return count
+
+
 
 class CartProduct(models.Model):
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
     cart = models.ForeignKey(Cart,on_delete=models.CASCADE)
     count = models.IntegerField()
 
+    def __str__(self):
+        return f'{self.product.name,self.count,self.cart.is_active}'
+
+    @property
+    def price(self):
+        count = self.count * self.product.price
+        return count
+    
+
 class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username},{self.product.name}'

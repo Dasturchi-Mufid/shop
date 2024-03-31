@@ -114,27 +114,30 @@
                             </div>
                         </div>                          
                         {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
                         <ul class="quantity-with-btn">
-                            <li class="quantity">
-                                <div class="cart-plus-minus">
-                                    <input class="cart-plus-minus-box" value="1" type="text">
-                                </div>
-                            </li>
-                            <li class="add-to-cart">
-                                <a class="btn btn-custom-size lg-size btn-pronia-primary" href="cart.html">Add to
-                                    cart</a>
-                            </li>
-                            <li class="wishlist-btn-wrap">
-                                <a class="custom-circle-btn" href="wishlist.html">
-                                    <i class="pe-7s-like"></i>
-                                </a>
-                            </li>
-                            <li class="compare-btn-wrap">
-                                <a class="custom-circle-btn" href="compare.html">
-                                    <i class="pe-7s-refresh-2"></i>
-                                </a>
-                            </li>
-                        </ul>
+                                <li class="quantity">
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" name="count" value="1" type="text">
+                                    </div>
+                                </li>
+                                <li class="add-to-cart">
+                                    <button class="btn btn-custom-size lg-size btn-pronia-primary" href="{% url 'front:active_cart' %}">Add to
+                                        cart</button>
+                                </li>
+                                <li class="wishlist-btn-wrap">
+                                    <a class="custom-circle-btn" href="wishlist.html">
+                                        <i class="pe-7s-like"></i>
+                                    </a>
+                                </li>
+                                <li class="compare-btn-wrap">
+                                    <a class="custom-circle-btn" href="compare.html">
+                                        <i class="pe-7s-refresh-2"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </form>
                         <ul class="service-item-wrap">
                             <li class="service-item">
                                 <div class="service-img">
