@@ -27,3 +27,9 @@ ikkinchi marotaba so`rov kelganda yaratmasdan o`zgartiradigan signal yozing +
 6) cart detailda chegirma bo`lsa o`sha chiqishi kerak +
 7) product detailda add cart bo`lganda update bo`ladigan qilish kerak +
 8) product list add to cart qo`shilishi kerak +
+
+02.04.24
+1) Enter Product modeliga yozish adminkadan (create, update, list yozish) +
+2) Admin pageda Product detailda o`sha productga tegishli kirim chiqimlarni tablega solish va vaqtiga ko`ra tartiblash 
+3) wishlist update qilish, productlar list va detailda agar bor bo`lsa active yo`q bo`lsa not active holatda tursin 
+4) Wishlist not activeni ustini bosganda create bo`lsin, activeni bosganda wishlist o`chsin +

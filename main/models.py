@@ -61,10 +61,32 @@ class Product(CodeGenerate):
     quantity = models.IntegerField() 
     delivery = models.BooleanField(default=False)
 
+    @property
+    def stock_status(self):
+        return bool(self.quantity)
+
     def __str__(self):
         return f'{self.name}'
     
 
+class EnterProduct(CodeGenerate):
+    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
+    quantity = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f'{self.product.name}, {self.quantity}'
+    
+
+    def save(self,*args, **kwargs):    
+        if self.pk:
+            obj = EnterProduct.objects.get(id=self.id)
+            self.product.quantity -= obj.quantity
+        self.product.quantity += int(self.quantity)
+        self.product.save()
+        
+        super(EnterProduct,self).save(*args, **kwargs)
 
 
 class ProductImg(models.Model):
@@ -161,5 +183,8 @@ class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
+    
     def __str__(self):
         return f'{self.user.username},{self.product.name}'
+    
+    
