@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from main.funcs import staff_required
 from main import models
+from itertools import chain
 
 @staff_required
 def index(request):
@@ -50,7 +51,22 @@ def product_list(request):
     categories = models.Category.objects.all()
     category_code = request.GET.get('category_code')
     if category_code and category_code != '0':
-        queryset = models.Product.objects.filter(category__code=category_code)
+        print(request.POST)
+        print(request.GET)
+        if request.GET.get('is_discount'):
+            queryset = models.Product.objects.filter(
+                category__code=category_code,
+                name__icontains=request.GET.get('name'),
+                quantity=request.GET.get('quantity'),
+                discount_price__isnull = False
+                )
+        else:
+            queryset = models.Product.objects.filter(
+                category__code=category_code,
+                name__icontains=request.GET.get('name'),
+                quantity=request.GET.get('quantity'),
+                discount_price__isnull = True
+                )
     else:
         queryset = models.Product.objects.all()
     context = {
@@ -225,8 +241,10 @@ def detail_product_enter(request,code):
 @staff_required
 def product_history(request,code):
     queryset = models.EnterProduct.objects.filter(product__code=code)
-    outs = models.Cart.objects.filter(product__code=code,cart__isactive=False)
+    outs = models.CartProduct.objects.filter(product__code=code,cart__status=4)
+    data = list(chain(queryset, outs))
+    data = sorted(data, key=lambda x: x.date, reverse=True)
     context = {
           'queryset':queryset
     }
-    return render(request, 'dashboard/product/history.html', context)
+    return render(request, 'dashboard/enter_product/history.html', context)

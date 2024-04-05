@@ -39,7 +39,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Product</th>
-                                <th scope="col">Kirim</th>
+                                <th scope="col">Kirim/Chiqim</th>
                                 <th scope="col">Harakatlar</th>
                             </tr>
                         </thead>
@@ -48,6 +48,7 @@
                             <tr>
                                 <th scope="row">{{forloop.counter}}</th>
                                 <td>{{q.product.name}}</td>
+                                {% if q.quantity %}
                                 <td style="color: green;">+{{q.quantity}}</td>
                                 <td>
                                     <button type="button" class="btn btn-icon btn-hover btn-sm btn-rounded" data-toggle="modal" data-target=".bd-example-modal-sm{{forloop.counter}}">
@@ -78,6 +79,9 @@
                                         </div>
                                     </div>
                                 </td>
+                                {% else %}
+                                <td style="color: red;">-{{q.count}}</td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>
