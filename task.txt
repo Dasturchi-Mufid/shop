@@ -37,10 +37,16 @@ ikkinchi marotaba so`rov kelganda yaratmasdan o`zgartiradigan signal yozing +
 04.04.2024
 1) Statusi 1ga teng bo`lgan Cart detailda buyurtma qilish degan button hosil qiling. +
 Uni bosganda modal oyna orqali tasdiqlab Orderni statusini 2(yo`lda)ga o`zgartiring va Productlarni sonini kamaytiring +
-2) Buyurtmalar degan Sahifa yarating, unda Yo`ldagi va Qaytartilgan Buyurtmalar table ko`rinishida chiqadi. 
+2) Buyurtmalar degan Sahifa yarating, unda Yo`ldagi va Qaytartilgan Buyurtmalar table ko`rinishida chiqadi. +
 3) Yuqoridagi sahifada Yo`ldagi buyurtmani tahrirlash uchun modal oyna ochadigan ustun qo`shing. 
-Unda qabul qilish yoki bekor qilish bo`limi bo`lsin. 
+Unda qabul qilish yoki bekor qilish bo`limi bo`lsin. +
 4) Qabul qilish bosganda Buyurtma statusi 4(qabul qilingan)ga o`zgarsin va darhol Review berish uchun yangi modal ochilsin, 
 Unda 5 yulduzda baholash va Comment yozish mumkin bo`lsin 
-5) Qaytarishini bosganda Buyurtma statusi 3(qaytarilgan)ga o`tsin
-6) Buyurtma berilgan productlar soni kamayishi kerak
+5) Qaytarishini bosganda Buyurtma statusi 3(qaytarilgan)ga o`tsin +
+6) Buyurtma berilgan productlar soni kamayishi kerak +
+
+06.04.2024
+1) Productlarni Front qismda ko`rish uchun page oching va filterlash uchun dinamik filter yozing 
+2) Frontdagi urllardan kelib chiqgan holatda navbarga liklar qo`ying +
+3) Frontda kerak bo`lmagan narsalarni o`chirib tashlang +
+4) Dasturni dashboard va Front qismlarini o`zbekchaga tarjima qiling +

@@ -4,9 +4,10 @@ from main import models
 
 
 def index(request):
-    categories = models.Category.objects.all()
+    categories = models.Category.objects.all()[:5:]
     products = []
     reviews = models.Review.objects.all()
+    new_products = models.Product.objects.all().values()[::-1][:10:]
     if request.user.is_authenticated:
         for i in models.Product.objects.all():
             if models.WishList.objects.filter(product=i,user=request.user):
@@ -29,6 +30,8 @@ def index(request):
         'products':products,
         'rating':range(1,6),
         'mark':mark,
+        'new_products':new_products,
+        'reviews':reviews.filter(mark__gte=4),
         }
     return render(request, 'front/index.html',context)
 
@@ -76,7 +79,35 @@ def product_list(request,code):
         }
     return render(request, 'front/category/product_list.html',context)
 
-
+def all_products(request):
+    products = models.Product.objects.all()
+    categories = models.Category.objects.all()
+    filter_items = dict()
+    if request.method == 'GET':
+        for key, value in request.GET.items():
+            if value and not value == '0':
+                if key == 'category_code':
+                    key = 'category__code'
+                elif key == 'price':
+                    value = value.split(';')
+                    filter_items['price__gte'] = value[0]
+                    filter_items['price__lte'] = value[1]
+                    continue
+                elif key == 'mark':
+                    value = value.split(';')
+                    filter_items['review__mark__gte'] = value[0]
+                    filter_items['review__mark__lte'] = value[1]
+                    continue
+                elif key == 'name':
+                    key = 'name__icontains'
+                filter_items[key] = value
+        products = models.Product.objects.filter(**filter_items)
+    print(products.values())
+    context = {
+        'products':products,
+        'categories':categories,
+        }
+    return render(request, 'front/product/list.html',context)
 
 def product_delete(request,id):
     models.CartProduct.objects.get(id=id).delete()
@@ -168,8 +199,34 @@ def add_wishlist(request,code):
 def order_list(request):
     ordered = models.CartProduct.objects.filter(cart__user=request.user,cart__status=2)
     returned = models.CartProduct.objects.filter(cart__user=request.user,cart__status=3)
+
+    if request.method == 'POST':
+        if request.POST.get('accept'):
+            cart = models.Cart.objects.get(status=2,user=request.user)
+            cart.status = 4
+            product = models.Cart.objects.filter(status=4,user=request.user)
+            # cart.save()
+        elif request.POST.get('cancel'):
+            product = models.CartProduct.objects.get(cart__status=2)
+            product.cart.status = 3
+            # product.cart.save()
+    
     context = {
         'ordered':ordered,
         'returned':returned,
         }
     return render(request, 'front/order/list.html',context)
+
+
+def create_review(request,code):
+    product = models.CartProduct.objects.filter(cart__code=code)
+    print(product.last())
+    # if request.method == 'POST':
+    #     models.Review.objects.create(
+    #         product=product,
+    #         user=request.user,
+    #         mark=request.POST.get('mark'),
+    #         text=request.POST.get('text'),
+    #     )
+        # redirect('front:product_detail',product.code)
+    return render(request, 'front/review/create.html')

@@ -51,8 +51,6 @@ def product_list(request):
     categories = models.Category.objects.all()
     category_code = request.GET.get('category_code')
     if category_code and category_code != '0':
-        print(request.POST)
-        print(request.GET)
         if request.GET.get('is_discount'):
             queryset = models.Product.objects.filter(
                 category__code=category_code,

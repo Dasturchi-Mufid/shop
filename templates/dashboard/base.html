@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Enlink - Admin Dashboard Template</title>
+    <title>Pronia - Dashboad</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'dashboard/images/logo/favicon.png' %}">
@@ -68,17 +68,8 @@
                                 <a href="javascript:void(0);" class="dropdown-item d-block p-h-15 p-v-10">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div>
-                                            <i class="anticon opacity-04 font-size-16 anticon-user"></i>
-                                            <span class="m-l-10">Edit Profile</span>
-                                        </div>
-                                        <i class="anticon font-size-10 anticon-right"></i>
-                                    </div>
-                                </a>
-                                <a href="javascript:void(0);" class="dropdown-item d-block p-h-15 p-v-10">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div>
                                             <i class="anticon opacity-04 font-size-16 anticon-lock"></i>
-                                            <span class="m-l-10">Account Setting</span>
+                                            <span class="m-l-10">Sozlamalar</span>
                                         </div>
                                         <i class="anticon font-size-10 anticon-right"></i>
                                     </div>
@@ -87,7 +78,7 @@
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div>
                                             <i class="anticon opacity-04 font-size-16 anticon-project"></i>
-                                            <span class="m-l-10">Projects</span>
+                                            <span class="m-l-10">Proyektlar</span>
                                         </div>
                                         <i class="anticon font-size-10 anticon-right"></i>
                                     </div>
@@ -96,7 +87,7 @@
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div>
                                             <i class="anticon opacity-04 font-size-16 anticon-logout"></i>
-                                            <span class="m-l-10">Logout</span>
+                                            <span class="m-l-10">Chiqish</span>
                                         </div>
                                         <i class="anticon font-size-10 anticon-right"></i>
                                     </div>
@@ -118,7 +109,7 @@
                                 <span class="icon-holder">
                                     <i class="anticon anticon-appstore"></i>
                                 </span>
-                                <span class="title">Shop menu</span>
+                                <span class="title">Do`kon menyusi</span>
                                 <span class="arrow">
                                     <i class="arrow-icon"></i>
                                 </span>
@@ -130,7 +121,7 @@
                                             <span class="icon-holder">
                                                 <i class="anticon anticon-ordered-list"></i>
                                             </span>
-                                            <span class="title">Category</span>
+                                            <span class="title">Kategoriya</span>
                                             <span class="arrow">
                                                 <i class="arrow-icon"></i>
                                             </span>
@@ -139,16 +130,15 @@
                                             <li>
                                                 <a href="{% url 'dashboard:category_create' %}">
                                                     <i class="anticon anticon-plus-circle"></i>
-                                                    Create
+                                                    Yaratish
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="{% url 'dashboard:category_list' %}">
                                                     <span class="icon-holder">
                                                         <i class="fas fa-align-justify"></i>
-                                                        List
+                                                        Ro`yhat
                                                     </span>
-                                                      
                                                 </a>
                                             </li>
                                         </ul>
@@ -161,7 +151,7 @@
                                             <span class="icon-holder">
                                                 <i class="anticon anticon-heat-map"></i>
                                             </span>
-                                            <span class="title">Product</span>
+                                            <span class="title">Mahsulot</span>
                                             <span class="arrow">
                                                 <i class="arrow-icon"></i>
                                             </span>
@@ -170,13 +160,13 @@
                                             <li>
                                                 <a href="{% url 'dashboard:product_create' %}">
                                                     <i class="anticon anticon-plus-circle"></i>
-                                                    Create
+                                                    Yaratish
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="{% url 'dashboard:product_list' %}">
                                                     <i class="fas fa-align-justify"></i>
-                                                    List
+                                                    Ro`yhat
                                                 </a>
                                             </li>
                                         </ul>
@@ -188,7 +178,7 @@
                                             <span class="icon-holder">
                                                 <i class="anticon anticon-heat-map"></i>
                                             </span>
-                                            <span class="title">Enter Product</span>
+                                            <span class="title">Mahsulotlar kirimi</span>
                                             <span class="arrow">
                                                 <i class="arrow-icon"></i>
                                             </span>
@@ -197,13 +187,13 @@
                                             <li>
                                                 <a href="{% url 'dashboard:create_product_enter' %}">
                                                     <i class="anticon anticon-plus-circle"></i>
-                                                    Create
+                                                    Yaratish
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="{% url 'dashboard:list_product_enter' %}">
                                                     <i class="fas fa-align-justify"></i>
-                                                    List
+                                                    Ro`yhat
                                                 </a>
                                             </li>
                                         </ul>
@@ -214,8 +204,6 @@
                                 </li> -->
                             </ul>
                         </li>
-                       
-                        
                     </ul>
                 </div>
             </div>
@@ -226,21 +214,8 @@
                 
                 {% block content %}
                 {% endblock %}
-                <!-- Footer START -->
-                <footer class="footer">
-                    <div class="footer-content">
-                        <p class="m-b-0">Copyright © 2019 Theme_Nate. All rights reserved.</p>
-                        <span>
-                            <a href="" class="text-gray m-r-15">Term &amp; Conditions</a>
-                            <a href="" class="text-gray">Privacy &amp; Policy</a>
-                        </span>
-                    </div>
-                </footer>
-                <!-- Footer END -->
-
             </div>
             <!-- Page Container END -->
-
         </div>
     </div>
 

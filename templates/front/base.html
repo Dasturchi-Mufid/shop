@@ -7,7 +7,7 @@
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Pronia - Shop</title>
+    <title>Pronia - Do`kon</title>
     <meta name="robots" content="index, follow" />
     <meta name="description" content="Pronia plant store bootstrap 5 template is an awesome website template for any home plant shop.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,15 +94,15 @@
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="settingButton">
                                                 {% if user.is_authenticated %}
-                                                <li><a class="dropdown-item" href="{% url 'auth:profile' %}">My account</a></li>
-                                                <li><a class="dropdown-item" href="{% url 'front:active_cart' %}">My active cart</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'auth:profile' %}">Profil</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'front:order_list' %}">Buyurtmalarim</a></li>
                                                 {% if user.is_staff %}
                                                 <li><a class="dropdown-item" href="{% url 'dashboard:index' %}">Dashboard</a>
                                                 {% endif %}
-                                                <li><a class="dropdown-item" href="{% url 'auth:logout' %}">Logout</a>
+                                                <li><a class="dropdown-item" href="{% url 'auth:logout' %}">Chiqish</a>
                                                 {% else %}
-                                                <li><a class="dropdown-item" href="{% url 'auth:login' %}">Login</a>
-                                                <li><a class="dropdown-item" href="{% url 'auth:register' %}">Register</a>
+                                                <li><a class="dropdown-item" href="{% url 'auth:login' %}">Kirish</a>
+                                                <li><a class="dropdown-item" href="{% url 'auth:register' %}">Ro`yhatdan o`tish</a>
                                                 {% endif %}
                                                 </li>
                                             </ul>
@@ -134,10 +134,10 @@
                                 <nav class="main-nav">
                                     <ul>
                                         <li class="drop-holder">
-                                            <a href="{% url 'front:index' %}">Home</a>
+                                            <a href="{% url 'front:index' %}">Bosh sahifa</a>
                                         </li>
                                         <li class="drop-holder">
-                                            <a href="blog.html">Category</a>
+                                            <a href="#">Kategoriya</a>
                                             <ul class="drop-menu">
                                                 {% for category in categories %}
                                                 <li>
@@ -146,17 +146,8 @@
                                                 {% endfor %}
                                             </ul>
                                         </li>
-                                        <li class="drop-holder">
-                                            <a href="blog.html">Blog</a>
-                                        </li>
                                         <li>
-                                            <a href="about.html">About Us</a>
-                                        </li>
-                                        <li class="drop-holder">
-                                            <a href="#">Pages</a>
-                                        </li>
-                                        <li>
-                                            <a href="contact.html">Contact Us</a>
+                                            <a href="{% url 'front:all_products' %}">Barcha tovarlar</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -189,9 +180,9 @@
                         </div>
                         <div class="modal-body">
                             <div class="modal-search">
-                                <span class="searchbox-info">Start typing and press Enter to search or ESC to close</span>
+                                <span class="searchbox-info">Yozing va ENTERni bosing</span>
                                 <form action="#" class="hm-searchbox">
-                                    <input type="text" name="Search..." value="Search..." onblur="if(this.value==''){this.value='Search...'}" onfocus="if(this.value=='Search...'){this.value=''}" autocomplete="off">
+                                    <input type="text" name="Search" value="Search..." onblur="if(this.value==''){this.value='Search...'}" onfocus="if(this.value=='Search...'){this.value=''}" autocomplete="off">
                                     <button class="search-btn" type="submit" aria-label="searchbtn">
                                         <i class="pe-7s-search"></i>
                                     </button>
@@ -213,6 +204,7 @@
     <div class="footer-top section-space-top-100 pb-60">
         <div class="container">
             <div class="row">
+                <div class="col-lg-3"></div>
                 <div class="col-lg-3">
                     <div class="footer-widget-item">
                         <div class="footer-widget-logo">
@@ -220,11 +212,6 @@
                                 <img src="{% static 'front/images/logo/dark.png' %}" alt="Logo">
                             </a>
                         </div>
-                        <p class="footer-widget-desc">Lorem ipsum dolor sit amet, consec adipisl elit, sed do eiusmod
-                            tempor
-                            <br>
-                    incidio ut labore et dolore magna.
-                        </p>
                         <div class="social-link with-border">
                             <ul>
                                 <li>
@@ -253,98 +240,24 @@
                 </div>
                 <div class="col-lg-2 col-md-4 pt-40">
                     <div class="footer-widget-item">
-                        <h3 class="footer-widget-title">Useful Links</h3>
+                        <h3 class="footer-widget-title">Mening profilim</h3>
                         <ul class="footer-widget-list-item">
+                            {% if not user.is_authenticated %}
                             <li>
-                                <a href="#">About Pronia</a>
+                                <a href="{% url 'auth:login' %}">Kirish</a>
+                            </li>
+                            {% else %}                              
+                            <li>
+                                <a href="{% url 'front:active_cart' %}">Savatcha</a>
                             </li>
                             <li>
-                                <a href="#">How to shop</a>
+                                <a href="{% url 'front:wishlist' %}">Wishlist</a>
                             </li>
                             <li>
-                                <a href="#">FAQ</a>
+                                <a href="{% url 'front:order_list' %}">Buyurtmalarim</a>
                             </li>
-                            <li>
-                                <a href="#">Contact us</a>
-                            </li>
-                            <li>
-                                <a href="#">Log in</a>
-                            </li>
+                            {% endif %}
                         </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 pt-40">
-                    <div class="footer-widget-item">
-                        <h3 class="footer-widget-title">My Account</h3>
-                        <ul class="footer-widget-list-item">
-                            <li>
-                                <a href="#">Sign In</a>
-                            </li>
-                            <li>
-                                <a href="#">View Cart</a>
-                            </li>
-                            <li>
-                                <a href="#">My Wishlist</a>
-                            </li>
-                            <li>
-                                <a href="#">Track My Order</a>
-                            </li>
-                            <li>
-                                <a href="#">Help</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 pt-40">
-                    <div class="footer-widget-item">
-                        <h3 class="footer-widget-title">Our Service</h3>
-                        <ul class="footer-widget-list-item">
-                            <li>
-                                <a href="#">Payment Methods</a>
-                            </li>
-                            <li>
-                                <a href="#">Money Guarantee!</a>
-                            </li>
-                            <li>
-                                <a href="#">Returns</a>
-                            </li>
-                            <li>
-                                <a href="#">Shipping</a>
-                            </li>
-                            <li>
-                                <a href="#">Privacy Policy</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 pt-40">
-                    <div class="footer-contact-info">
-                        <h3 class="footer-widget-title">Got Question? Call Us</h3>
-                        <a class="number" href="tel://123-456-789">123 456 789</a>
-                        <div class="address">
-                            <ul>
-                                <li>
-                                    Your Address Goes Here
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <a href="#">
-                            <img src="{% static 'front/images/payment/1.png' %}" alt="Payment Method">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="copyright">
-                        <span class="copyright-text">© 2021 Pronia Made with <i class="fa fa-heart text-danger"></i> by
-                    <a href="https://hasthemes.com/" rel="noopener" target="_blank">HasThemes</a> </span>
                     </div>
                 </div>
             </div>

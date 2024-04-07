@@ -9,10 +9,10 @@
             <div class="row h-100">
                 <div class="col-lg-12">
                     <div class="breadcrumb-item">
-                        <h2 class="breadcrumb-heading">Product</h2>
+                        <h2 class="breadcrumb-heading">Mahsulot</h2>
                         <ul>
                             <li>
-                                <a href="{% url 'front:index' %}">Home</a>
+                                <a href="{% url 'front:index' %}">Bosh sahifa</a>
                             </li>
                             <li>{{product.name}}</li>
                         </ul>
@@ -86,7 +86,7 @@
                                 </ul>
                             </div>
                             <div class="review-status">
-                                <a href="#">( {{reviews|length}} Review )</a>
+                                <a href="#">( {{reviews|length}} Sharhlar )</a>
                             </div>
                         </div>
                         <p class="short-desc">
@@ -116,8 +116,9 @@
                         {% endif %}
                         <ul class="quantity-with-btn">
                                 <li class="add-to-cart">
-                                    <a class="btn btn-custom-size lg-size btn-pronia-primary" href="{% url 'front:add_to_cart' product.code %}">Add to
-                                        cart</a>
+                                    <a class="btn btn-custom-size lg-size btn-pronia-primary" href="{% url 'front:add_to_cart' product.code %}">
+                                        Savatchaga qo`shish
+                                    </a>
                                 </li>
                                 <li class="wishlist-btn-wrap">
                                     <a class="custom-circle-btn" href="{% url 'front:add_wishlist' product.code %}">
@@ -161,35 +162,10 @@
                             </li>
                         </ul>
                         <div class="product-category">
-                            <span class="title">Category :</span>
+                            <span class="title">Kategoriya :</span>
                             <ul>
                                 <li>
                                     <a href="#">{{product.category}}</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="product-category social-link align-items-center pb-0">
-                            <span class="title pe-3">Share:</span>
-                            <ul>
-                                <li>
-                                    <a href="#" data-tippy="Pinterest" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
-                                        <i class="fa fa-pinterest-p"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" data-tippy="Twitter" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" data-tippy="Tumblr" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
-                                        <i class="fa fa-tumblr"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" data-tippy="Dribbble" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
-                                        <i class="fa fa-dribbble"></i>
-                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -205,17 +181,17 @@
                     <ul class="nav product-tab-nav tab-style-2 pt-0" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="tab-btn" id="information-tab" data-bs-toggle="tab" href="#information" role="tab" aria-controls="information" aria-selected="false">
-                                Information
+                                Ma`lumto
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="active tab-btn" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
-                                Description
+                                Mahsulot haqida
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="tab-btn" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">
-                                Reviews({{reviews|length}})
+                                Sharhlar({{reviews|length}})
                             </a>
                         </li>
                     </ul>
@@ -247,7 +223,7 @@
                         <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                             <div class="product-review-body">
                                 <div class="blog-comment mt-0">
-                                    <h4 class="heading">Comments ({{reviews|length}})</h4>
+                                    <h4 class="heading">Kommentariyalar ({{reviews|length}})</h4>
                                     {% for review in reviews %}
                                     <div class="blog-comment-item">
                                         <div class="blog-comment-img">
@@ -264,33 +240,6 @@
                                     </div>                                      
                                     {% endfor %}
                                 </div>
-                                {% if user.is_authenticated %}
-                                <div class="feedback-area">
-                                    <h2 class="heading">Leave a comment</h2>
-                                    <form class="feedback-form">
-                                        <div class="group-input">
-                                            <div class="form-field me-md-30 mb-30 mb-md-0">
-                                                <input type="text" name="name" placeholder="Your Name*" class="input-field">
-                                            </div>
-                                            <div class="form-field">
-                                                <input type="text" name="email" placeholder="Your Email*" class="input-field">
-                                            </div>
-                                        </div>
-                                        <div class="form-field mt-30">
-                                            <input type="text" name="subject" placeholder="Subject (Optinal)" class="input-field">
-                                        </div>
-                                        <div class="form-field mt-30">
-                                            <textarea name="message" placeholder="Message" class="textarea-field"></textarea>
-                                        </div>
-                                        <div class="button-wrap pt-5">
-                                            <button type="submit" value="submit" class="btn btn-custom-size xl-size btn-pronia-primary" name="submit">Post
-                                                Comment</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                {% else %}
-                                <h4>Login for writing comment</h4>                                  
-                                {% endif %}
                             </div>
                         </div>
                     </div>

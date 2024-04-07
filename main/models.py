@@ -5,7 +5,6 @@ import string
 from datetime import datetime
 
 
-
 class CodeGenerate(models.Model):
     code = models.CharField(max_length=255, blank=True,unique=True)
     
