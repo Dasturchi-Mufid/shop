@@ -263,18 +263,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pagination-area">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">&raquo;</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                    {% if products.paginator.num_pages > 1 %}
+                        <div class="pagination-area">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if products.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{products.previous_page_number }}">
+                                                &laquo;
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for num in products.paginator.page_range %}
+                                        {% if num == products.number %}
+                                            <li class="page-item active">
+                                            <strong> <a class="page-link" href="#" tabindex="-1">{{ num }}</a></strong>
+                                            </li>
+                                        {% elif num > products.number|add:'-2' and num < products.number|add:'2' %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if products.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ products.next_page_number }}">
+                                                &raquo;
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

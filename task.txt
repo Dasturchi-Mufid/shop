@@ -50,3 +50,8 @@ Unda 5 yulduzda baholash va Comment yozish mumkin bo`lsin
 2) Frontdagi urllardan kelib chiqgan holatda navbarga liklar qo`ying +
 3) Frontda kerak bo`lmagan narsalarni o`chirib tashlang +
 4) Dasturni dashboard va Front qismlarini o`zbekchaga tarjima qiling +
+
+07.04.2024
+1) Online shopni full tuatish 
+2) Dashboard va Frontda Paginatorlardan foydalanish +
+3) Eng kamida bitta pageda chartdan foydalanish(page urlni izohga yozing)

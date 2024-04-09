@@ -5,6 +5,7 @@
 <!-- Content Wrapper START -->
          <div class="main-content">
             <div class="page-header no-gutters">
+
                 <div class="d-md-flex align-items-md-center justify-content-between">
                     <div class="media m-v-10 align-items-center">
                         <div class="avatar avatar-image avatar-lg">
@@ -15,6 +16,7 @@
                             <span class="text-gray">Proyekt menejer</span>
                         </div>
                     </div>
+                    
                     <div class="d-md-flex align-items-center d-none">
                         <div class="media align-items-center m-r-40 m-v-5">
                             <div class="font-size-27">
@@ -45,7 +47,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="ct-chart" id="simple-line-chart"></div>
             </div>
         </div>
         <!-- Content Wrapper END -->
+    <script src="{% static 'dashboard/vendors/chartist/chartist.min.js' %}"></script>
+
+        <script>
+            new Chartist.Line('#simple-line-chart', {
+        labels: {{ names|safe }}, // `|safe` is used to prevent auto-escaping
+        series: [
+            {name: 'Quantities', data: {{ quantities|safe }}},
+        ]
+    }, {
+        fullWidth: true,
+        chartPadding: {
+            right: 40
+        }
+    });
+        </script>
 {% endblock %}

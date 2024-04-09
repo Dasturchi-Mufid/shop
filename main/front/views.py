@@ -1,7 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from main import models
+from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 
+
+def paginator_page(List,num,request):
+    paginator = Paginator(List,num)
+    page = request.GET.get('page')
+    try:
+        List = paginator.page(page)
+    except PageNotAnInteger:
+        List = paginator.page(1)
+    except EmptyPage:
+        List = paginator.page(paginator.num_pages)
+    return List
 
 def index(request):
     categories = models.Category.objects.all()[:5:]
@@ -72,9 +84,9 @@ def product_list(request,code):
             products.append(i)
     else:
         products = models.Product.objects.filter(category__code=code)
-    
+    paginators = paginator_page(products,2,request)
     context = {
-        'products':products,
+        'products':paginator_page(products,2,request),
         'categories':categories,
         }
     return render(request, 'front/category/product_list.html',context)
@@ -100,11 +112,12 @@ def all_products(request):
                     continue
                 elif key == 'name':
                     key = 'name__icontains'
+                else:
+                    continue
                 filter_items[key] = value
         products = models.Product.objects.filter(**filter_items)
-    print(products.values())
     context = {
-        'products':products,
+        'products':paginator_page(products,2,request),
         'categories':categories,
         }
     return render(request, 'front/product/list.html',context)

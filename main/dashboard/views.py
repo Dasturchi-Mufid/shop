@@ -2,10 +2,34 @@ from django.shortcuts import render, redirect
 from main.funcs import staff_required
 from main import models
 from itertools import chain
+from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
+
+
+def paginator_page(List,num,request):
+    paginator = Paginator(List,num)
+    page = request.GET.get('page')
+    try:
+        List = paginator.page(page)
+    except PageNotAnInteger:
+        List = paginator.page(1)
+    except EmptyPage:
+        List = paginator.page(paginator.num_pages)
+    return List
+
 
 @staff_required
 def index(request):
-    context = {}
+    products = models.Product.objects.all()
+    names = []
+    quantities = []
+    for product in products:
+        names.append(str(product.name))
+        quantities.append(float(product.quantity))
+    
+    context = {
+        'names': names,
+        'quantities': quantities,
+    }
     return render(request, 'dashboard/index.html', context)
 
 # ---------CATEGORY-------------
@@ -15,7 +39,7 @@ def index(request):
 def category_list(request):
     queryset = models.Category.objects.all()
     context = {
-        'queryset':queryset
+        'queryset':paginator_page(queryset,2,request),
         }
     return render(request, 'dashboard/category/list.html', context)
 
@@ -68,7 +92,7 @@ def product_list(request):
     else:
         queryset = models.Product.objects.all()
     context = {
-          'queryset':queryset,
+          'queryset':paginator_page(queryset,3,request),
           'categories':categories,
           'category_code':category_code,
     }
@@ -222,7 +246,7 @@ def update_product_enter(request,code):
 def list_product_enter(request):
     products = models.Product.objects.all()
     context = {
-          'products':products
+          'products':paginator_page(products,3,request),
     }
     return render(request, 'dashboard/enter_product/list.html', context)
 
@@ -230,8 +254,9 @@ def list_product_enter(request):
 @staff_required
 def detail_product_enter(request,code):
     queryset = models.EnterProduct.objects.filter(product__code=code)
+    
     context = {
-          'queryset':queryset
+          'queryset':paginator_page(queryset, 2,request)
     }
     return render(request, 'dashboard/enter_product/detail.html', context)
 
@@ -243,6 +268,6 @@ def product_history(request,code):
     data = list(chain(queryset, outs))
     data = sorted(data, key=lambda x: x.date, reverse=True)
     context = {
-          'queryset':queryset
+          'queryset':paginator_page(queryset,3,request)
     }
     return render(request, 'dashboard/enter_product/history.html', context)
